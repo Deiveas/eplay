@@ -4,7 +4,8 @@ export const cores = {
   branca: '#EEEEEE',
   preta: '#111111',
   cinza: '#333333',
-  verde: '#10AC84'
+  verde: '#10AC84',
+  cinzaClaro: '#A3A3A3'
 }
 
 export const GlobalCss = createGlobalStyle`
@@ -27,4 +28,15 @@ body {
     margin: 0 auto;
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 20px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+}
+
 `
