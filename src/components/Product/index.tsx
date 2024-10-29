@@ -10,26 +10,36 @@ type Props = {
   image: string
 }
 
-const Produtc = ({
+const Product = ({
   title,
   category,
   system,
   description,
   infos,
   image
-}: Props) => (
-  <Card>
-    <img src={image} alt={title} />
-    <Infos>
-      {infos.map((info) => (
-        <Tag key={info}>{info}</Tag>
-      ))}
-    </Infos>
-    <Titulo>{title}</Titulo>
-    <Tag>{category}</Tag>
-    <Tag>{system}</Tag>
-    <Descricao>{description}</Descricao>
-  </Card>
-)
+}: Props) => {
+  const getDescricao = (descricao: string) => {
+    if (descricao.length > 95) {
+      return descricao.slice(0, 92) + '...'
+    }
 
-export default Produtc
+    return descricao
+  }
+
+  return (
+    <Card>
+      <img src={image} alt={title} />
+      <Infos>
+        {infos.map((info) => (
+          <Tag key={info}>{info}</Tag>
+        ))}
+      </Infos>
+      <Titulo>{title}</Titulo>
+      <Tag>{category}</Tag>
+      <Tag>{system}</Tag>
+      <Descricao>{getDescricao(description)}</Descricao>
+    </Card>
+  )
+}
+
+export default Product

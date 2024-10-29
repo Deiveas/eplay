@@ -1,135 +1,49 @@
 import ProductsList from '../../components/Productslist'
-import Game from '../../models/Game'
-import resident from '../../assets/images/resident.png'
-import diablo from '../../assets/images/diablo.png'
-import zelda from '../../assets/images/zelda.png'
-import star_wars from '../../assets/images/star_wars.png'
-import street_fighter from '../../assets/images/street_fighter.png'
-import fifa_23 from '../../assets/images/fifa_23.png'
-import need_for_speed from '../../assets/images/need_for_speed.jpg'
-import God_of_War from '../../assets/images/God_of_War.webp'
+import { Game } from '../Home'
+import { useEffect, useState } from 'react'
 
-const promocoes: Game[] = [
-  {
-    id: 1,
-    category: 'FPS',
-    description:
-      'Resident Evil 4, conhecido no Japão como Biohazard 4, é um jogo eletrônico de survival horror...',
-    title: 'Resident Evil 4 - Remake',
-    system: 'Windows',
-    infos: ['-10%', 'R$ 199,90'],
-    image: resident
-  },
-  {
-    id: 2,
-    category: 'Esporte',
-    description:
-      'EA SPORTS™ FIFA 23 traz o Jogo de Todo Mundo aos gramados com a tecnologia HyperMotion2...',
-    title: 'FIFA 23',
-    system: 'PS5',
-    infos: ['-50%', 'R$ 99,90'],
-    image: fifa_23
-  },
-  {
-    id: 3,
-    category: 'Simulador',
-    description:
-      'Corra de dia e arrisque tudo à noite em Need for Speed™ Heat, uma experiência de corrida emocionante que coloca você contra uma força policial rebelde da cidade enquanto luta para entrar na elite da corrida de rua.',
-    title: 'Need for Speed™ Heat-Deluxe',
-    system: 'PS4',
-    infos: ['-90%', 'R$ 27,90'],
-    image: need_for_speed
-  },
-  {
-    id: 4,
-    category: 'RPG',
-    description:
-      'Com a vingança contra os deuses do Olimpo em um passado distante, Kratos agora vive como um mortal no reino dos deuses e monstros nórdicos. É nesse mundo duro e implacável que ele deve lutar para sobreviver... e ensinar seu filho a fazer o mesmo.',
-    title: 'God of War: Ragnarok',
-    system: 'PS4',
-    infos: ['-60%', 'R$ 79,96'],
-    image: God_of_War
-  }
-]
+const Categories = () => {
+  const [gamesAcao, setGamesAcao] = useState<Game[]>([])
+  const [gamesEsportes, setGamesEsportes] = useState<Game[]>([])
+  const [gamesSimulacao, setGamesSimulacao] = useState<Game[]>([])
+  const [gamesLuta, setGamesLuta] = useState<Game[]>([])
+  const [gamesRPG, setGamesRPG] = useState<Game[]>([])
 
-const emBreve: Game[] = [
-  {
-    id: 5,
-    category: 'RPG',
-    description:
-      'Diablo IV é um RPG de ação em desenvolvimento pela Blizzard Entertainment.',
-    title: 'Diablo 4',
-    system: 'Windows',
-    infos: ['17/09'],
-    image: diablo
-  },
-  {
-    id: 6,
-    category: 'Aventura',
-    description:
-      'Star Wars Jedi: Survivor é um próximo jogo de ação e aventura desenvolvido pela Respawn...',
-    title: 'Star Wars Jedi Survivor',
-    system: 'Windows',
-    infos: ['17/09'],
-    image: star_wars
-  },
-  {
-    id: 7,
-    category: 'Luta',
-    description:
-      'Street Fighter 6 é um próximo jogo de luta desenvolvido e publicado pela Capcom.',
-    title: 'Street Fighter 6',
-    system: 'Windows',
-    infos: ['17/09'],
-    image: street_fighter
-  },
-  {
-    id: 8,
-    category: 'RPG',
-    description:
-      'Uma aventura épica pela terra e pelos céus de Hyrule aguarda em The Legend of Zelda™...',
-    title: 'The Legend of Zelda - TOK',
-    system: 'Switch',
-    infos: ['17/09'],
-    image: zelda
-  }
-]
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/eplay/acao')
+      .then((res) => res.json())
+      .then((res) => setGamesAcao(res))
 
-const Categories = () => (
-  <>
-    <ProductsList
-      games={promocoes.filter((game) => game.category === 'FPS')}
-      title="FPS"
-      background="gray"
-    />
-    <ProductsList
-      games={promocoes.filter((game) => game.category === 'Esporte')}
-      title="Esporte"
-      background="black"
-    />
-    <ProductsList
-      games={promocoes.filter((game) => game.category === 'Simulador')}
-      title="Simulador"
-      background="gray"
-    />
-    <ProductsList
-      games={[...promocoes, ...emBreve].filter(
-        (game) => game.category === 'RPG'
-      )}
-      title="RPG"
-      background="black"
-    />
-    <ProductsList
-      games={emBreve.filter((game) => game.category === 'Aventura')}
-      title="Aventura"
-      background="gray"
-    />
-    <ProductsList
-      games={emBreve.filter((game) => game.category === 'Luta')}
-      title="Luta"
-      background="black"
-    />
-  </>
-)
+    fetch('https://fake-api-tau.vercel.app/api/eplay/esportes')
+      .then((res) => res.json())
+      .then((res) => setGamesEsportes(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/simulacao')
+      .then((res) => res.json())
+      .then((res) => setGamesSimulacao(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/luta')
+      .then((res) => res.json())
+      .then((res) => setGamesLuta(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/rpg')
+      .then((res) => res.json())
+      .then((res) => setGamesRPG(res))
+  }, [])
+
+  return (
+    <>
+      <ProductsList games={gamesAcao} title="Ação" background="black" />
+      <ProductsList games={gamesEsportes} title="Esportes" background="gray" />
+      <ProductsList games={gamesLuta} title="Luta" background="black" />
+      <ProductsList games={gamesRPG} title="RPG" background="gray" />
+      <ProductsList
+        games={gamesSimulacao}
+        title="Simulação"
+        background="black"
+      />
+    </>
+  )
+}
 
 export default Categories
