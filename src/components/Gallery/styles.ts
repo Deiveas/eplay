@@ -25,8 +25,8 @@ export const Item = styled.li`
   > img {
     border: 2px solid ${cores.branca};
     border-radius: 8px;
-    width: 150px;
-    height: 150px;
+    width: 100%; /* Ajuste para ser responsivo */
+    max-width: 150px;
     object-fit: cover;
   }
 
