@@ -1,18 +1,12 @@
-import { useEffect, useState } from 'react'
-import { Game } from '../../pages/Home'
 import { Imagem, Precos, Titulo } from './styles'
 import Button from '../Button'
 import Tag from '../Tag'
 import { formataPreco } from '../Productslist'
+import { useGetFeaturedGameQuery } from '../../services/api'
 
 const Banner = () => {
-  const [game, setGame] = useState<Game>()
-
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/eplay/destaque')
-      .then((res) => res.json())
-      .then((res) => setGame(res))
-  }, [])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: game, isLoading } = useGetFeaturedGameQuery()
 
   if (!game) {
     // eslint-disable-next-line react/no-unescaped-entities
