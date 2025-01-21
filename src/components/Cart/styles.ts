@@ -32,12 +32,25 @@ export const Sidebar = styled.aside`
   padding: 40px 16px 0 16px;
   max-width: 360px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 
   ${ButtonContainer} {
     max-width: 100%;
     width: 100%;
   }
+
+  ul {
+    flex-grow: 1;
+    max-height: calc(
+      100vh - 200px
+    ); /* Espaço reservado para título, preços e botões */
+    overflow-y: auto;
+    padding-right: 8px; /* Adiciona um espaço para a barra de rolagem */
+    margin: 0;
+  }
 `
+
 export const Prices = styled.p`
   font-weight: bold;
   font-size: 14px;
