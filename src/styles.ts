@@ -8,6 +8,11 @@ export const cores = {
   cinzaClaro: '#A3A3A3'
 }
 
+export const breakpoints = {
+  desktop: '1024px',
+  tablet: '768px'
+}
+
 export const GlobalCss = createGlobalStyle`
 * {
   margin: 0;
@@ -29,14 +34,9 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  body {
-    padding-top: 20px;
-  }
-
-  .container {
-    padding: 0 16px;
-  }
+@media (max-width: ${breakpoints.desktop}) {
+  max-width: 80%;
+  margin: 16px;
 }
 
 `
