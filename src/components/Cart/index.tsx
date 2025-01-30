@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Button from '../Button'
 import {
   Overlay,
@@ -15,8 +16,8 @@ import { formataPreco } from '../Productslist'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const closeCart = () => {
     dispatch(close())
@@ -31,6 +32,12 @@ const Cart = () => {
 
   const removeItem = (id: number) => {
     dispatch(remove(id))
+  }
+
+  // Função para continuar com a compra
+  const handleContinueToCheckout = () => {
+    closeCart() // Fecha o carrinho
+    navigate('/checkout') // Redireciona para o checkout
   }
 
   return (
@@ -57,9 +64,9 @@ const Cart = () => {
           <span>Em até 6x sem juros</span>
         </Prices>
         <Button
-          onclick={closeCart}
           title="Clique aqui para continuar com a compra"
           type="button"
+          onClick={handleContinueToCheckout} // Usa a nova função
         >
           Continuar com a Compra
         </Button>

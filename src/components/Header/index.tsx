@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { HeaderBar, Links, LinkItem, CartButton } from './styles'
 import logo from '../../assets/images/logo.svg'
 import carrinho from '../../assets/images/carrinho.svg'
@@ -8,11 +8,25 @@ import { RootReducer } from '../../store'
 
 const Header = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { items } = useSelector((state: RootReducer) => state.cart)
 
   const openCart = () => {
     dispatch(open())
   }
+
+  const handleScrollToSection = (hash: string) => {
+    // Navega para a rota principal (caso esteja em outra página)
+    navigate('/')
+    // Após a navegação, aguarde a renderização e role até a seção
+    setTimeout(() => {
+      const section = document.querySelector(hash)
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100) // Pequeno delay para garantir a navegação
+  }
+
   return (
     <HeaderBar>
       <div>
@@ -26,10 +40,17 @@ const Header = () => {
               <Link to="/categories">Categorias</Link>
             </LinkItem>
             <LinkItem>
-              <a href="#">Novidades</a>
+              <Link
+                onClick={() => handleScrollToSection('#coming-soon')}
+                to={''}
+              >
+                Em breve
+              </Link>
             </LinkItem>
             <LinkItem>
-              <a href="#">Promoções</a>
+              <Link onClick={() => handleScrollToSection('#on-sale')} to={''}>
+                Promoções
+              </Link>
             </LinkItem>
           </Links>
         </nav>

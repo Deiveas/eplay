@@ -6,6 +6,7 @@ export const Container = styled.footer`
   background-color: ${cores.cinza};
   padding: 32px 0;
   font-size: 14px;
+  margin-top: 40px;
 
   @media (max-width: 768px) {
     padding: 16px 0;
