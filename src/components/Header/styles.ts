@@ -1,72 +1,102 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
+
+export const Links = styled.ul`
+  display: flex;
+  margin-left: 40px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin-left: 0;
+    display: block;
+  }
+`
 
 export const HeaderBar = styled.header`
   background-color: ${cores.cinza};
   padding: 24px;
   border-radius: 16px;
   margin-bottom: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap; /* Adicionado para permitir quebra de linha em telas menores */
 
   a {
     color: ${cores.branca};
     text-decoration: none;
     font-weight: bold;
   }
+`
 
-  div {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  /* Media Query */
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    .Links {
-      margin-left: 0;
-    }
-
-    .LinkCart {
-      margin-top: 16px;
-    }
-  }
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; // Para posicionar a logo corretamente em telas menores
 
   nav {
-    margin-left: 100px;
+    @media (max-width: ${breakpoints.tablet}) {
+      display: none;
+    }
   }
 `
 
-export const Links = styled.ul`
-  display: flex;
-  margin-left: 40px;
+export const LogoContainer = styled.div`
+  @media (max-width: ${breakpoints.tablet}) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); // Centraliza a logo em telas menores
+  }
+`
 
-  @media (max-width: 768px) {
-    margin: 0;
-    padding: 0;
-    flex-direction: column;
+export const NavMobile = styled.nav`
+  display: none;
+
+  &.is-open {
+    display: block;
   }
 `
 
 export const LinkItem = styled.li`
   margin-right: 16px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoints.tablet}) {
     margin-right: 0;
-    margin-bottom: 8px;
+
+    a {
+      padding: 16px 0;
+      display: block;
+      text-align: center;
+    }
   }
 `
 
 export const CartButton = styled.a`
   display: flex;
+  align-items: center;
   cursor: pointer;
+  gap: 8px; // Espaçamento entre o texto e a imagem
 
   img {
-    margin-left: 16px;
+    margin-left: 8px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    span {
+      display: none;
+    }
+  }
+`
+
+export const Hamburguer = styled.div`
+  width: 32px;
+  cursor: pointer;
+
+  span {
+    height: 2px;
+    display: block;
+    width: 100%;
+    background-color: ${cores.branca};
+    margin-bottom: 4px;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    display: none;
   }
 `
