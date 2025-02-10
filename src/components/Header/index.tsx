@@ -1,20 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom'
-import {
-  HeaderBar,
-  Links,
-  LinkItem,
-  CartButton,
-  Hamburguer,
-  HeaderRow,
-  NavMobile,
-  LogoContainer
-} from './styles'
-import logo from '../../assets/images/logo.svg'
-import carrinho from '../../assets/images/carrinho.svg'
-import { open } from '../../store/reducers/cart'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
+import logo from '../../assets/images/logo.svg'
+import cartIcon from '../../assets/images/carrinho.svg'
+import { open } from '../../store/reducers/cart'
+import * as S from './styles'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -37,66 +29,104 @@ const Header = () => {
     }, 100)
   }
 
+  // Função combinada para fechar o menu e rolar para a seção
+  const handleMenuAndScroll = (hash: string) => {
+    setIsMenuOpen(false) // Fecha o menu
+    handleScrollToSection(hash) // Rola para a seção
+  }
+
   return (
-    <HeaderBar>
-      <HeaderRow>
-        <Hamburguer onClick={() => setIsMenuOpen(!isMenuOpen)}>
+    <S.HeaderBar>
+      <S.HeaderRow>
+        <S.Hamburguer onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <span />
           <span />
           <span />
-        </Hamburguer>
-        <LogoContainer>
+        </S.Hamburguer>
+        <S.LogoContainer>
           <img src={logo} alt="EPLAY" />
-        </LogoContainer>
+        </S.LogoContainer>
         <nav>
-          <Links>
-            <LinkItem>
-              <Link to="/">Home</Link>
-            </LinkItem>
-            <LinkItem>
-              <Link to="/categories">Categorias</Link>
-            </LinkItem>
-            <LinkItem>
+          <S.Links>
+            <S.LinkItem>
+              <Link title="Clique aqui para acessar a Home" to="/">
+                Home
+              </Link>
+            </S.LinkItem>
+            <S.LinkItem>
               <Link
+                title="Clique aqui para acessar a página de categorias"
+                to="/categories"
+              >
+                Categorias
+              </Link>
+            </S.LinkItem>
+            <S.LinkItem>
+              <HashLink
+                title="Clique aqui para acessar a seção de em breve"
                 onClick={() => handleScrollToSection('#coming-soon')}
                 to={''}
               >
                 Em breve
-              </Link>
-            </LinkItem>
-            <LinkItem>
-              <Link onClick={() => handleScrollToSection('#on-sale')} to={''}>
+              </HashLink>
+            </S.LinkItem>
+            <S.LinkItem>
+              <HashLink
+                title="Clique aqui para acessar a seção de promoções"
+                onClick={() => handleScrollToSection('#on-sale')}
+                to={''}
+              >
                 Promoções
-              </Link>
-            </LinkItem>
-          </Links>
+              </HashLink>
+            </S.LinkItem>
+          </S.Links>
         </nav>
-        <CartButton onClick={openCart}>
+        <S.CartButton onClick={openCart}>
           {items.length} <span>- produto(s)</span>
-          <img src={carrinho} alt="Carrinho" />
-        </CartButton>
-      </HeaderRow>
-      <NavMobile className={isMenuOpen ? 'is-open' : ''}>
-        <Links>
-          <LinkItem>
-            <Link to="/">Home</Link>
-          </LinkItem>
-          <LinkItem>
-            <Link to="/categories">Categorias</Link>
-          </LinkItem>
-          <LinkItem>
-            <Link onClick={() => handleScrollToSection('#coming-soon')} to={''}>
+          <img src={cartIcon} alt="Carrinho" />
+        </S.CartButton>
+      </S.HeaderRow>
+      <S.NavMobile className={isMenuOpen ? 'is-open' : ''}>
+        <S.Links>
+          <S.LinkItem>
+            <Link
+              title="Clique aqui para acessar a página home"
+              to="/"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+          </S.LinkItem>
+          <S.LinkItem>
+            <Link
+              title="Clique aqui para acessar a página categorias"
+              to="/categories"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Categorias
+            </Link>
+          </S.LinkItem>
+          <S.LinkItem>
+            <HashLink
+              title="Clique aqui para acessar a seção de em breve"
+              onClick={() => handleMenuAndScroll('#coming-soon')} // Usa a função combinada
+              to={''}
+            >
               Em breve
-            </Link>
-          </LinkItem>
-          <LinkItem>
-            <Link onClick={() => handleScrollToSection('#on-sale')} to={''}>
+            </HashLink>
+          </S.LinkItem>
+          <S.LinkItem>
+            <HashLink
+              title="Clique aqui para acessar a seção de promoções"
+              onClick={() => handleMenuAndScroll('#on-sale')} // Usa a função combinada
+              to={''}
+            >
               Promoções
-            </Link>
-          </LinkItem>
-        </Links>
-      </NavMobile>
-    </HeaderBar>
+            </HashLink>
+          </S.LinkItem>
+        </S.Links>
+      </S.NavMobile>
+    </S.HeaderBar>
   )
 }
 

@@ -1,13 +1,14 @@
 import React from 'react' // Importe o React
-import { ButtonContainer, ButtonLink } from './styles'
+import * as S from './styles'
 
 export type Props = {
-  type: 'button' | 'link'
+  type: 'button' | 'link' | 'submit' // Adicionado o tipo "submit"
   title: string
   to?: string
   onClick?: () => void // Corrigido para `onClick`
   children: React.ReactNode // Alterado para `React.ReactNode`
   variant?: 'primary' | 'secondary'
+  disabled?: boolean // Adicionado a propriedade disabled
 }
 
 const Button = ({
@@ -16,18 +17,20 @@ const Button = ({
   to,
   onClick,
   children,
-  variant = 'primary'
+  variant = 'primary',
+  disabled = false // Valor padrão para disabled
 }: Props) => {
-  if (type === 'button') {
+  if (type === 'button' || type === 'submit') {
     return (
-      <ButtonContainer
+      <S.ButtonContainer
         variant={variant}
-        type="button"
+        type={type} // Passa o tipo diretamente
         title={title}
         onClick={onClick} // Corrigido para `onClick`
+        disabled={disabled} // Passa a propriedade disabled
       >
         {children}
-      </ButtonContainer>
+      </S.ButtonContainer>
     )
   }
 
@@ -38,9 +41,9 @@ const Button = ({
   }
 
   return (
-    <ButtonLink to={to} title={title}>
+    <S.ButtonLink to={to} title={title}>
       {children}
-    </ButtonLink>
+    </S.ButtonLink>
   )
 }
 

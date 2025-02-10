@@ -6,12 +6,10 @@ import { useGetGameQuery } from '../../services/api'
 
 const Product = () => {
   const { id } = useParams()
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { data: game } = useGetGameQuery(id!)
 
   if (!game) {
-    // eslint-disable-next-line react/no-unescaped-entities
-    return <h3>'Carregando...'</h3>
+    return <h3>Carregando...</h3>
   }
 
   return (

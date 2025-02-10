@@ -1,28 +1,26 @@
-import { Imagem, Precos, Titulo } from './styles'
-import Button from '../Button'
 import Tag from '../Tag'
-import { formataPreco } from '../Productslist'
+import Button from '../Button'
 import { useGetFeaturedGameQuery } from '../../services/api'
+import * as S from './styles'
+import { parseToBrl } from '../../utils'
 
 const Banner = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: game, isLoading } = useGetFeaturedGameQuery()
+  const { data: game } = useGetFeaturedGameQuery()
 
   if (!game) {
-    // eslint-disable-next-line react/no-unescaped-entities
-    return <h3>'Carregando...'</h3>
+    return <h3>Carregando...</h3>
   }
 
   return (
-    <Imagem style={{ backgroundImage: `url(${game?.media.cover})` }}>
+    <S.Image style={{ backgroundImage: `url(${game?.media.cover})` }}>
       <div className="container">
         <Tag size="big">Destaque do dia</Tag>
         <div>
-          <Titulo>{game.name}</Titulo>
-          <Precos>
-            De <span>{formataPreco(game?.prices.old)}</span> <br />
-            por apenas {formataPreco(game.prices.current)}
-          </Precos>
+          <S.Title>{game.name}</S.Title>
+          <S.Prices>
+            De <span>{parseToBrl(game?.prices.old)}</span> <br />
+            por apenas {parseToBrl(game.prices.current)}
+          </S.Prices>
         </div>
         <Button
           type="link"
@@ -32,7 +30,7 @@ const Banner = () => {
           Aproveitar
         </Button>
       </div>
-    </Imagem>
+    </S.Image>
   )
 }
 export default Banner
