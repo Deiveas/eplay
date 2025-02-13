@@ -40,6 +40,13 @@ export const Sidebar = styled.aside`
     width: 100%;
   }
 
+  .emputy-text {
+    font-size: 14px;
+    line-height: 22px;
+    color: ${colors.white};
+    text-align: center;
+  }
+
   ul {
     flex-grow: 1;
     max-height: calc(

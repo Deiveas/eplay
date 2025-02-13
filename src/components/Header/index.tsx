@@ -81,7 +81,7 @@ const Header = () => {
             </S.LinkItem>
           </S.Links>
         </nav>
-        <S.CartButton onClick={openCart}>
+        <S.CartButton role="button" onClick={openCart}>
           {items.length} <span>- produto(s)</span>
           <img src={cartIcon} alt="Carrinho" />
         </S.CartButton>

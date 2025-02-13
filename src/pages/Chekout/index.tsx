@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
+import InputMask from 'react-input-mask'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
 import barCode from '../../assets/images/boleto.png'
@@ -92,7 +93,7 @@ const Chekout = () => {
       cardCode: Yup.string().when((values, schema) =>
         payWithCard ? schema.required('Preenchimento obrigatório') : schema
       ),
-      installments: Yup.string().when((values, schema) =>
+      installments: Yup.number().when((values, schema) =>
         payWithCard ? schema.required('Preenchimento obrigatório') : schema
       )
     }),
@@ -108,7 +109,7 @@ const Chekout = () => {
             email: values.deliveryEmail
           },
           payment: {
-            installments: 1,
+            installments: values.installments,
             card: {
               active: payWithCard,
               code: Number(values.cardCode),
@@ -170,7 +171,7 @@ const Chekout = () => {
   }
   return (
     <div className="container">
-      {isSuccess ? (
+      {isSuccess && data ? (
         <Card title="Muito obrigado">
           <>
             <p>
@@ -234,7 +235,7 @@ const Chekout = () => {
                 </S.InputGroup>
                 <S.InputGroup>
                   <label htmlFor="cpf">CPF</label>
-                  <input
+                  <InputMask
                     id="cpf"
                     type="text"
                     name="cpf"
@@ -242,6 +243,7 @@ const Chekout = () => {
                     onChange={form.handleChange}
                     onBlur={form.handleBlur}
                     className={checkInputHasError('cpf') ? 'error' : ''}
+                    mask="999.999.999-99"
                   />
                 </S.InputGroup>
               </S.Row>
@@ -324,7 +326,7 @@ const Chekout = () => {
                         <label htmlFor="cpfCardOwner">
                           CPF do titular do cartão
                         </label>
-                        <input
+                        <InputMask
                           type="text"
                           id="cpfCardOwner"
                           name="cpfCardOwner"
@@ -334,13 +336,14 @@ const Chekout = () => {
                           className={
                             checkInputHasError('cpfCardOwner') ? 'error' : ''
                           }
+                          mask="999.999.999-99"
                         />
                       </S.InputGroup>
                     </S.Row>
                     <S.Row marginTop="24px">
                       <S.InputGroup>
                         <label htmlFor="cardDisplayName">Nome no cartão</label>
-                        <input
+                        <InputMask
                           type="text"
                           id="cardDisplayName"
                           name="cardDisplayName"
@@ -350,11 +353,12 @@ const Chekout = () => {
                           className={
                             checkInputHasError('cardDisplayName') ? 'error' : ''
                           }
+                          mask=""
                         />
                       </S.InputGroup>
                       <S.InputGroup>
                         <label htmlFor="cardNumber">Número do cartão</label>
-                        <input
+                        <InputMask
                           type="text"
                           id="cardNumber"
                           name="cardNumber"
@@ -364,11 +368,12 @@ const Chekout = () => {
                           className={
                             checkInputHasError('cardNumber') ? 'error' : ''
                           }
+                          mask="999 999 999 999"
                         />
                       </S.InputGroup>
                       <S.InputGroup maxWidth="123px">
                         <label htmlFor="expiresMonth">Mês do vencimento</label>
-                        <input
+                        <InputMask
                           type="text"
                           id="expiresMonth"
                           name="expiresMonth"
@@ -378,11 +383,12 @@ const Chekout = () => {
                           className={
                             checkInputHasError('expireMonth') ? 'error' : ''
                           }
+                          mask="99"
                         />
                       </S.InputGroup>
                       <S.InputGroup maxWidth="123px">
                         <label htmlFor="expiresYear">Ano de vencimento</label>
-                        <input
+                        <InputMask
                           type="text"
                           id="expiresYear"
                           name="expiresYear"
@@ -392,11 +398,12 @@ const Chekout = () => {
                           className={
                             checkInputHasError('expiresYear') ? 'error' : ''
                           }
+                          mask="99"
                         />
                       </S.InputGroup>
                       <S.InputGroup maxWidth="48px">
                         <label htmlFor="cardCode">CVV</label>
-                        <input
+                        <InputMask
                           type="text"
                           id="cardCode"
                           name="cardCode"
@@ -406,6 +413,7 @@ const Chekout = () => {
                           className={
                             checkInputHasError('cardCode') ? 'error' : ''
                           }
+                          mask="999"
                         />
                       </S.InputGroup>
                     </S.Row>
