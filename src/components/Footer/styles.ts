@@ -47,3 +47,6 @@ export const FooterSection = styled.div`
     margin-bottom: 32px;
   }
 `
+export const alignText = styled.p`
+  text-align: center;
+`

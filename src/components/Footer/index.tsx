@@ -71,10 +71,10 @@ const Footer = () => (
           </li>
         </S.Links>
       </S.FooterSection>
-      <p>
+      <S.alignText>
         {currentYear} - &copy; E-PLAY Todos os direitos reservados -
         Desenvolvido por Deive A Silva
-      </p>
+      </S.alignText>
     </div>
   </S.Container>
 )
