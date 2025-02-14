@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react' // Importe o useEffect
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import InputMask from 'react-input-mask'
 import Button from '../../components/Button'
@@ -12,6 +12,7 @@ import { usePurchaseMutation } from '../../services/api'
 import * as S from './styles'
 import { RootReducer } from '../../store'
 import { getTotalPrice, parseToBrl } from '../../utils'
+import { clear } from '../../store/reducers/cart'
 
 type Installment = {
   quantity: number
@@ -26,6 +27,7 @@ const Chekout = () => {
   const { items } = useSelector((state: RootReducer) => state.cart)
 
   const [installments, setInstallments] = useState<Installment[]>([])
+  const dispatch = useDispatch()
 
   const totalPrice = getTotalPrice(items)
 
@@ -125,12 +127,10 @@ const Chekout = () => {
               }
             }
           },
-          products: [
-            {
-              id: 1, // Substitua pelo ID real do produto
-              price: 10 // Substitua pelo preço real do produto
-            }
-          ]
+          products: items.map((item) => ({
+            id: item.id,
+            price: item.prices.current as number
+          }))
         }).unwrap()
 
         console.log('Compra finalizada com sucesso:', response)
@@ -166,7 +166,13 @@ const Chekout = () => {
     }
   }, [totalPrice])
 
-  if (items.length === 0) {
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clear())
+    }
+  }, [isSuccess, dispatch])
+
+  if (items.length === 0 && !isSuccess) {
     return <Navigate to="/" />
   }
   return (
@@ -174,34 +180,40 @@ const Chekout = () => {
       {isSuccess && data ? (
         <Card title="Muito obrigado">
           <>
-            <p>
+            <S.JustifiedText>
               É com satisfação que informamos que recebemos seu pedido com
               sucesso! <br />
               Abaixo estão os detalhes da sua compra: <br />
-              Número do pedido: {data.orderId} <br />
+              Número do pedido: <S.BlinkingText>
+                {data.orderId}
+              </S.BlinkingText>{' '}
+              <br />
               Forma de pagamento:{' '}
-              {payWithCard ? 'Cartão de Crédito' : 'Boleto Bancário'}
-            </p>
-            <p className="margin-top">
+              <S.BlinkingText>
+                {payWithCard ? 'Cartão de Crédito' : 'Boleto Bancário'}
+              </S.BlinkingText>
+            </S.JustifiedText>
+
+            <S.JustifiedText className="margin-top">
               Caso tenha optado pelo pagamento via boleto bancário, lembre-se de
               que a confirmação pode levar até 3 dias úteis. Após a aprovação do
               pagamento, enviaremos um e-mail contendo o código de ativação do
               jogo.
-            </p>
-            <p className="margin-top">
+            </S.JustifiedText>
+            <S.JustifiedText className="margin-top">
               Se você optou pelo pagamento com cartão de crédito, a liberação do
               código de ativação ocorrerá após a aprovação da transação pela
               operadora do cartão. Você receberá o código no e-mail cadastrado
               em nossa loja.
-            </p>
-            <p className="margin-top">
+            </S.JustifiedText>
+            <S.JustifiedText className="margin-top">
               Pedimos que verifique sua caixa de entrada e a pasta de spam para
               garantir que receba nossa comunicação.
-            </p>
-            <p className="margin-top">
+            </S.JustifiedText>
+            <S.JustifiedText className="margin-top">
               Agradecemos por escolher a EPLAY e esperamos que desfrute do seu
               jogo!
-            </p>
+            </S.JustifiedText>
           </>
         </Card>
       ) : (
@@ -431,7 +443,10 @@ const Chekout = () => {
                           }
                         >
                           {installments.map((installment) => (
-                            <option key={installment.quantity}>
+                            <option
+                              value={installment.quantity}
+                              key={installment.quantity}
+                            >
                               {installment.quantity}x de{' '}
                               {installment.formattedAmount}
                             </option>
@@ -441,14 +456,14 @@ const Chekout = () => {
                     </S.Row>
                   </>
                 ) : (
-                  <p>
+                  <S.JustifiedText>
                     Ao optar por essa forma de pagamento, é importante lembrar
                     que a confirmação pode levar até 3 dias úteis, devido aos
                     prazos estabelecidos pelas instituições financeiras.
                     Portanto, a liberação do código de ativação do jogo
                     adquirido ocorrerá somente após a aprovação do pagamento do
                     boleto.
-                  </p>
+                  </S.JustifiedText>
                 )}
               </div>
             </>

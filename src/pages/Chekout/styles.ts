@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { colors } from '../../styles'
+import styled, { keyframes } from 'styled-components'
+import { breakpoints, colors } from '../../styles'
 
 type InputGroupProps = {
   maxWidth?: string
@@ -18,6 +18,10 @@ export const Row = styled.div<RowProps>`
   column-gap: 24px;
   margin-top: ${(props) => props.marginTop || '0'};
   align-items: flex-end;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: block;
+  }
 `
 
 export const InputGroup = styled.div<InputGroupProps>`
@@ -43,7 +47,12 @@ export const InputGroup = styled.div<InputGroupProps>`
       border: 2px solid red;
     }
   }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin-top: 16px;
+  }
 `
+
 export const TabButton = styled.button<TabButtonProps>`
   border-radius: 8px;
   font-size: 14px;
@@ -60,4 +69,20 @@ export const TabButton = styled.button<TabButtonProps>`
   img {
     margin-right: 8px;
   }
+`
+
+export const JustifiedText = styled.p`
+  text-align: justify;
+`
+// Definindo a animação piscante
+const blink = keyframes`
+  0%, 100% { color: ${colors.white}; }
+  50% { color: yellow; }
+`
+
+// Criando um estilo para os textos piscantes
+export const BlinkingText = styled.span`
+  font-size: 16px;
+  font-weight: bold;
+  animation: ${blink} 1s infinite;
 `

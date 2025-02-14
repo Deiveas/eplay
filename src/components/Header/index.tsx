@@ -44,7 +44,9 @@ const Header = () => {
           <span />
         </S.Hamburguer>
         <S.LogoContainer>
-          <img src={logo} alt="EPLAY" />
+          <h1>
+            <img src={logo} alt="EPLAY" />
+          </h1>
         </S.LogoContainer>
         <nav>
           <S.Links>
